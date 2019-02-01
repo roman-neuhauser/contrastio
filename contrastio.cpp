@@ -14,9 +14,11 @@ struct RGB
 };
 
 RGB
-make_RGB(std::string const &s)
+make_RGB(std::string s)
 {
   std::string sr, sg, sb;
+  if (s.at(0) == '#')
+    s = s.substr(1);
   if (s.size() == 3) {
     sr = s.substr(0, 1); sr = sr + sr;
     sg = s.substr(1, 1); sg = sg + sg;
@@ -68,16 +70,8 @@ main(int argc, char **argv)
     return 111;
   }
 
-  auto c1 = std::string(argv[1]);
-  auto c2 = std::string(argv[2]);
-
-  if (c1.at(0) == '#')
-    c1 = c1.substr(1);
-  if (c2.at(0) == '#')
-    c2 = c2.substr(1);
-
-  auto Lx = relative_luminance(sRGB(make_RGB(c1)));
-  auto Ly = relative_luminance(sRGB(make_RGB(c2)));
+  auto Lx = relative_luminance(sRGB(make_RGB(argv[1])));
+  auto Ly = relative_luminance(sRGB(make_RGB(argv[2])));
 
   auto L1 = std::max(Lx, Ly);
   auto L2 = std::min(Lx, Ly);
